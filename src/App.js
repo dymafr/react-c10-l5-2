@@ -1,28 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
-function App() {
-  console.log('Rendu du composant App');
-  const [count, setCount] = useState(0);
-  const [title, setTitle] = useState('Dyma');
+function VideoPlayer({ src, isPlaying }) {
+  const ref = useRef(null);
 
   useEffect(() => {
-    console.log('Effet !');
-    document.title = title;
-  }, [title]);
+    if (isPlaying) {
+      ref.current.play();
+    } else {
+      ref.current.pause();
+    }
+  });
 
-  return (
-    <div className="d-flex flex-column justify-content-center align-items-center p-20">
-      <input
-        className="m-10"
-        type="text"
-        onChange={(e) => setTitle(e.target.value)}
-        value={title}
-      />
-      <button className="btn btn-primary" onClick={() => setCount(count + 1)}>
-        {count}
-      </button>
-    </div>
-  );
+  return <video ref={ref} src={src} loop playsInline />;
 }
 
-export default App;
+export default function App() {
+  const [isPlaying, setIsPlaying] = useState(false);
+  return (
+    <>
+      <button
+        className="btn btn-primary m-10"
+        onClick={() => setIsPlaying(!isPlaying)}
+      >
+        {isPlaying ? 'Pause' : 'Play'}
+      </button>
+      <VideoPlayer
+        isPlaying={isPlaying}
+        src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+      />
+    </>
+  );
+}
