@@ -11,7 +11,9 @@ function VideoPlayer({ src, isPlaying }) {
     }
   });
 
-  return <video ref={ref} src={src} loop playsInline />;
+  return (
+    <video ref={ref} src={src} loop playsInline style={{ maxWidth: '600px' }} />
+  );
 }
 
 export default function App() {
@@ -24,10 +26,12 @@ export default function App() {
       >
         {isPlaying ? 'Pause' : 'Play'}
       </button>
-      <VideoPlayer
-        isPlaying={isPlaying}
-        src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
-      />
+      <div>
+        <VideoPlayer
+          isPlaying={isPlaying}
+          src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+        />
+      </div>
     </>
   );
 }
